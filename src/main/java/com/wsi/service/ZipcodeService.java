@@ -36,7 +36,7 @@ public class ZipcodeService {
 		ZipcodeRange newZipcodeRange = null;
 		
 		Stack<ZipcodeRange> zipRangeStack = new Stack<>();
-		zipRangeStack.push(zipcodeList.get(0));
+		zipRangeStack.push(orderedList.get(0));
 		
 		for (int i = 1; i < orderedList.size() ; i++) {
 			ZipcodeRange top = zipRangeStack.peek();
@@ -74,36 +74,38 @@ public class ZipcodeService {
 			return zipList;
 		}
 		
-		int tmpZipcodeEnd = 0;
+		Stack<ZipcodeRange> zipStack = new Stack<>();
+		ZipcodeRange newZipcodeRange = null;
 
 		for (int i = 0; i < zipList.size(); i++) {
-			// removing null 
+			// ignoring null 
 			if (zipList.get(i) == null ) {
-				zipList.remove(i);
-				i--;
+				continue;
+			}
+			// ignoring out of range value
+			else if(zipList.get(i).getZipcodeStart() <  MIN_ZIP_START || zipList.get(i).getZipcodeEnd() > MAX_ZIP_END) {
+				continue;
 			}
 			// Swapping value if zipcodeEnd < zipcodeStart
-			else if (zipList.get(i).getZipcodeEnd() < 
-					zipList.get(i).getZipcodeStart()) {
-				
-				tmpZipcodeEnd = zipList.get(i).getZipcodeEnd();
-				zipList.get(i).setZipcodeEnd(zipList.get(i).getZipcodeStart());
-				zipList.get(i).setZipcodeStart(tmpZipcodeEnd);
+			else if ((zipList.get(i).getZipcodeEnd() < zipList.get(i).getZipcodeStart()) && 
+					!(zipList.get(i).getZipcodeEnd() <  MIN_ZIP_START || zipList.get(i).getZipcodeStart() > MAX_ZIP_END)) {
+					newZipcodeRange = new ZipcodeRange(zipList.get(i).getZipcodeEnd(), zipList.get(i).getZipcodeStart());
+					zipStack.push(newZipcodeRange);
+					continue;
 			} 
-			// Removing out of range value
-			else if(zipList.get(i).getZipcodeStart() <  MIN_ZIP_START ||
-					zipList.get(i).getZipcodeEnd() > MAX_ZIP_END) {
-				zipList.remove(i);
-				i--;
+			else {
+				zipStack.push(zipList.get(i));
 			}
 		}
-
+		
+		List<ZipcodeRange> filteredList = new ArrayList<ZipcodeRange>(zipStack);
+		
 		// Sorting the filtered list using zipcodeStart
-		if (zipList.size() > 1) {
-			zipList.sort(Comparator.comparingInt(ZipcodeRange::getZipcodeStart));
+		if (filteredList.size() > 1) {
+			filteredList.sort(Comparator.comparingInt(ZipcodeRange::getZipcodeStart));
 		}
 		
-		return zipList;
+		return filteredList;
 	}
 
 

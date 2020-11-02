@@ -64,7 +64,6 @@ public class ZipcodeServiceTest {
 		List<ZipcodeRange> actualsList = service.getMinimalZipcodeRangeList(inputList); 
 		
 		List<ZipcodeRange> expectedList = new LinkedList<>();  
-		expectedList.add(new ZipcodeRange(0, 1000)); 
 		expectedList.add(new ZipcodeRange(10000, 20000));  
 		
 		assertEquals(expectedList, actualsList);
