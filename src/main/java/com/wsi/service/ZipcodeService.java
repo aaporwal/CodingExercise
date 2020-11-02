@@ -41,12 +41,17 @@ public class ZipcodeService {
 		for (int i = 1; i < orderedList.size() ; i++) {
 			ZipcodeRange top = zipRangeStack.peek();
 
+			// ignoring if top and next range is same
 			if(top.getZipcodeStart() == orderedList.get(i).getZipcodeStart() &&
 			   top.getZipcodeEnd()	 == orderedList.get(i).getZipcodeEnd()) {
 				continue;
-			}else if(top.getZipcodeEnd() < orderedList.get(i).getZipcodeStart()){
+			}
+			// pushing if top end < next start
+			else if(top.getZipcodeEnd() < orderedList.get(i).getZipcodeStart()){
 				zipRangeStack.push(orderedList.get(i));
-			}else if(top.getZipcodeEnd() >= orderedList.get(i).getZipcodeStart()) {
+			}
+			// create new range and push when top end is >= next start and top end is < next end 
+			else if(top.getZipcodeEnd() >= orderedList.get(i).getZipcodeStart()) {
 				if (top.getZipcodeEnd() < orderedList.get(i).getZipcodeEnd()) {
 					newZipcodeRange = new ZipcodeRange(top.getZipcodeStart(), orderedList.get(i).getZipcodeEnd());
 					zipRangeStack.remove(top);
@@ -83,12 +88,12 @@ public class ZipcodeService {
 				continue;
 			}
 			// ignoring out of range value
-			else if(zipList.get(i).getZipcodeStart() <  MIN_ZIP_START || zipList.get(i).getZipcodeEnd() > MAX_ZIP_END) {
+			else if(zipList.get(i).getZipcodeStart() <  MIN_ZIP_START || zipList.get(i).getZipcodeEnd() > MAX_ZIP_END ||
+					zipList.get(i).getZipcodeEnd() <  MIN_ZIP_START || zipList.get(i).getZipcodeStart() > MAX_ZIP_END) {
 				continue;
 			}
 			// Swapping value if zipcodeEnd < zipcodeStart
-			else if ((zipList.get(i).getZipcodeEnd() < zipList.get(i).getZipcodeStart()) && 
-					!(zipList.get(i).getZipcodeEnd() <  MIN_ZIP_START || zipList.get(i).getZipcodeStart() > MAX_ZIP_END)) {
+			else if ((zipList.get(i).getZipcodeEnd() < zipList.get(i).getZipcodeStart())) {
 					newZipcodeRange = new ZipcodeRange(zipList.get(i).getZipcodeEnd(), zipList.get(i).getZipcodeStart());
 					zipStack.push(newZipcodeRange);
 					continue;

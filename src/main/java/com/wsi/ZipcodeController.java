@@ -23,12 +23,17 @@ public class ZipcodeController {
 	public static void main(String[] args) {
 		
 		ZipcodeRange z1 = new ZipcodeRange(10200, 20000);
-		ZipcodeRange z2 = new ZipcodeRange(15000, 10500);
-		ZipcodeRange z3 = new ZipcodeRange(20001, 30000);
+		ZipcodeRange z2 = new ZipcodeRange(1234, 321456);
+		ZipcodeRange z3 = new ZipcodeRange(20001, 1256);
 		ZipcodeRange z4 = new ZipcodeRange(10000, 20000);
 		ZipcodeRange z5 = null;
 		ZipcodeRange z6 = new ZipcodeRange(-60000, 40000);
-		ZipcodeRange z7 = new ZipcodeRange(10300, 10800);
+		ZipcodeRange z7 = new ZipcodeRange(123456, 10800);
+		ZipcodeRange z8 = new ZipcodeRange(10500, 20000);
+		ZipcodeRange z9 = new ZipcodeRange(10500, 19999);
+		ZipcodeRange z10 = new ZipcodeRange(20001, 19999);
+		
+		
 		
 		List<ZipcodeRange> zipList1 = new LinkedList<>();
 		zipList1.add(z5);
@@ -40,6 +45,9 @@ public class ZipcodeController {
 		zipList1.add(z5);
 		zipList1.add(z6);
 		zipList1.add(z7);
+		zipList1.add(z8);
+		zipList1.add(z9);
+		zipList1.add(z10);
 
 		zipList1.forEach(System.out::println);
 		zipcodeOperations(zipList1);
